@@ -1,0 +1,26 @@
+"""
+Comparing the last 5 years of BTC data ROI with traditional stocks (Google, Apple, FB, MSFT, AMZN)
+As well as USD inflation being left alone.
+Volatility day per day, Day trading  vs Hold.
+Ope
+"""
+
+import pandas as pd
+from pandas import DataFrame
+import matplotlib.pyplot as plt
+import matplotlib.dates as mdate
+import numpy as np
+import datetime
+
+
+df = pd.read_csv('cryptoData.csv') # Contains price data  from: 2013-04-28 to: 2018-08-04.
+
+btc = df[df.Symbol == 'BTC'] # Checks if value is equal to check condition. # Portion of the data where the values are true. Assign to variable.
+eth = df[df.Symbol == 'ETH']
+ltc = df[df.Symbol == 'ETH']
+
+# print(btc)
+# print(len(btc.Date))
+# print(len(btc.Close))
+plt.plot(btc.Date, btc.Close)
+plt.show()
