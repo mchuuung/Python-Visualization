@@ -1,26 +1,39 @@
-"""
-Comparing the last 5 years of BTC data ROI with traditional stocks (Google, Apple, FB, MSFT, AMZN)
-As well as USD inflation being left alone.
-Volatility day per day, Day trading  vs Hold.
-Ope
-"""
 
 import pandas as pd
 from pandas import DataFrame
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdate
+import matplotlib.ticker as ticker
 import numpy as np
-import datetime
+import datetime as dt
+import matplotlib.dates as mdates
+xfmt = mdates.DateFormatter('%m-%d-%y')
 
 
-df = pd.read_csv('cryptoData.csv') # Contains price data  from: 2013-04-28 to: 2018-08-04.
-
+df = pd.read_csv('cryptoData.csv') # the sample data provided in the question was made into a csv and read in using pandas
 btc = df[df.Symbol == 'BTC'] # Checks if value is equal to check condition. # Portion of the data where the values are true. Assign to variable.
 eth = df[df.Symbol == 'ETH']
 ltc = df[df.Symbol == 'ETH']
 
-# print(btc)
-# print(len(btc.Date))
-# print(len(btc.Close))
-plt.plot(btc.Date, btc.Close)
+dates = btc.Date # Get just the 'Date' column
+# dates = [dt.datetime.strptime(d,'%m/%d/%y').date() for d in dates]
+dates = [dt.datetime.strptime(date,'%m/%d/%y') for date in dates]
+
+fig, ax = plt.subplots()
+ax.xaxis.set_major_formatter(xfmt)
+ax.set_xlabel('Time')
+ax.set_ylabel('Value')
+ax.set_xticks(dates)
+
+# fig, ax = plt.subplots()
+# plot 'BTC' column, using red (r) line and label 'BTC' which is used in the legend
+ax.plot(btc.Close,'r-',label='BTC')
+ax.set_xticks(np.arange(len(dates))) # this ensures ticklabels align with the corresponding data point
+ax.set_xticklabels(dates)     # set the ticklabels to the list of datetimes
+ax.legend(loc=4, fontsize=10) # make a legend and place in bottom-right (loc=4)
+plt.xticks(rotation=30)       # rotate the xticklabels by 30 deg
+# tick_spacing = 100
+# ax.xaxis.set_major_locator(ticker.MultipleLocator(tick_spacing))
+
+plt.tight_layout()
 plt.show()
